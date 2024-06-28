@@ -31,11 +31,10 @@ sns_art=$(figlet SNS scripts)
 # Your script execution continues here if not canceled...
 echo "Continuing with the script execution..."
 
-
 PRE_SETUP() {
     echo "We have to do some server preconfigurations first"
-    sudo dnf update -y
-    sudo dnf install figlet -y
+    sudo apt-get update -y
+    sudo apt-get install figlet xfsprogs -y
     lsblk
     read -p "Choose the partition you want to use for GlusterFS: " partition
     sudo mkfs.xfs -i size=512 /dev/$partition
@@ -46,9 +45,9 @@ PRE_SETUP() {
 
 INSTALL_GFS() {
     echo "installing glusterfs..."
-    yum install glusterfs-server -y
-    service glusterd start
-    systemctl status glusterd
+    sudo apt-get install glusterfs-server -y
+    sudo systemctl start glusterd
+    sudo systemctl status glusterd
 }
 
 ADD_IP(){
@@ -64,13 +63,13 @@ ADD_IP(){
 
 FIREWALL(){
     echo "Adding iptable rules"
-    iptables -I INPUT -p all -s server1 -j ACCEPT
-    iptables -I INPUT -p all -s server2 -j ACCEPT
-    iptables -I INPUT -p all -s server3 -j ACCEPT
-    sleep 3
-    echo "Setting up Firewall"
-    firewall-cmd --permanent --add-service=glusterfs
-    firewall-cmd --reload
+    sudo ufw allow from $server1 to any port 24007 proto tcp
+    sudo ufw allow from $server2 to any port 24007 proto tcp
+    sudo ufw allow from $server3 to any port 24007 proto tcp
+    sudo ufw allow from $server1 to any port 24008 proto tcp
+    sudo ufw allow from $server2 to any port 24008 proto tcp
+    sudo ufw allow from $server3 to any port 24008 proto tcp
+    sudo ufw reload
     echo "ALL DONE!!!"
 }
 
@@ -80,7 +79,7 @@ VOL_CREATE() {
 
   if [[ "$current_host" == "server1" && "$gluster_peer_state" == "(Connected)" ]]; then
     echo "All servers should be set up. $current_host will create the volume."
-    gluster volume create gv0 server1:/data/brick1/gv0 server2:/data/brick1/gv0 server3:/data/brick1/gv0 || {
+    sudo gluster volume create gv0 server1:/data/brick1/gv0 server2:/data/brick1/gv0 server3:/data/brick1/gv0 || {
       echo "Error creating volume. Check Gluster logs for details."
       exit 1
     }

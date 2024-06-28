@@ -1,8 +1,9 @@
 #!/bin/bash
 sns_art=$(figlet SNS scripts)
 
-sudo dnf update -y
-sudo dnf install figlet -y
+# Update system and install figlet
+sudo apt-get update -y
+sudo apt-get install figlet -y
 
 echo "
     ***************************************************************************
@@ -39,25 +40,25 @@ status_bar() {
     printf "\n"
 }
 
-# Define NTP servers
-NTP_SERVERS=("2.fedora.pool.ntp.org" "pool.ntp.org" "time.google.com")
+# Define NTP servers for Ubuntu
+NTP_SERVERS=("ntp.ubuntu.com" "0.ubuntu.pool.ntp.org" "1.ubuntu.pool.ntp.org" "2.ubuntu.pool.ntp.org" "3.ubuntu.pool.ntp.org")
 
 echo "Updating system and installing chrony..."
 status_bar 10
 # Update system and install chrony
-sudo dnf update -y
-sudo dnf install -y chrony
+sudo apt-get update -y
+sudo apt-get install -y chrony
 
 echo "Enabling and starting chrony service..."
 status_bar 5
 # Enable and start chrony service
-sudo systemctl enable chronyd
-sudo systemctl start chronyd
+sudo systemctl enable chrony
+sudo systemctl start chrony
 
 echo "Backing up existing chrony configuration file..."
 status_bar 3
 # Configure chrony
-CHRONY_CONF="/etc/chrony.conf"
+CHRONY_CONF="/etc/chrony/chrony.conf"
 sudo cp ${CHRONY_CONF} ${CHRONY_CONF}.bak
 
 echo "Adding NTP servers to chrony configuration..."
@@ -72,12 +73,12 @@ done
 echo "Restarting chrony service to apply changes..."
 status_bar 5
 # Restart chrony service to apply changes
-sudo systemctl restart chronyd
+sudo systemctl restart chrony
 
 echo "Displaying chrony status and NTP synchronization details..."
 status_bar 5
 # Verify chrony status and configuration
-sudo systemctl status chronyd
+sudo systemctl status chrony
 chronyc tracking
 chronyc sources -v
 
