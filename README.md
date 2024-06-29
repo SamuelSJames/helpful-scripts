@@ -98,7 +98,3 @@ We welcome contributions! If you have a script that you'd like to add or an impr
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-Feel free to adjust the content to better fit your needs!
