@@ -1,7 +1,3 @@
-Here is the updated `README.md` with Rocky Linux and Debian:
-
----
-
 # Helpful Scripts
 
 Welcome to the **Helpful Scripts** repository! This repo contains a collection of bash scripts designed to simplify common installation and maintenance tasks on three popular Linux distributions: Ubuntu, Fedora, and Debian.
@@ -65,7 +61,7 @@ To use any of the scripts in this repository, follow the instructions below:
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/yourusername/helpful-scripts.git
+    git clone https://github.com/SamuelSJames/helpful-scripts.git
     cd helpful-scripts
     ```
 
@@ -86,7 +82,7 @@ To use any of the scripts in this repository, follow the instructions below:
 
 ## Contributing
 
-We welcome contributions! If you have a script that you'd like to add or an improvement to an existing script, please follow these steps:
+I welcome contributions! If you have a script that you'd like to add or an improvement to an existing script, please follow these steps:
 
 1. Fork the repository
 2. Create a new branch (`git checkout -b feature-branch`)
